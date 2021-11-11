@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <View
+        android:id="@+id/color_square"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewHexColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="#000000"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/color_square"
+        app:layout_constraintStart_toStartOf="@+id/color_square"
+        app:layout_constraintTop_toBottomOf="@+id/color_square" />
+
+    <SeekBar
+        android:id="@+id/seekBarRed"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="100dp"
+        android:progressTint="#FF0000"
+        android:thumbTint="#FF0000"
+        app:layout_constraintBottom_toTopOf="@+id/seekBarGreen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/color_square" />
+
+    <SeekBar
+        android:id="@+id/seekBarGreen"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:progressTint="#00FF00"
+        android:thumbTint="#00FF00"
+        app:layout_constraintEnd_toEndOf="@+id/seekBarRed"
+        app:layout_constraintStart_toStartOf="@+id/seekBarRed"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <SeekBar
+        android:id="@+id/seekBarBlue"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:progressTint="#0000FF"
+        android:thumbTint="#0000FF"
+        app:layout_constraintEnd_toEndOf="@+id/seekBarGreen"
+        app:layout_constraintStart_toStartOf="@+id/seekBarGreen"
+        app:layout_constraintTop_toBottomOf="@+id/seekBarGreen" />
+
+    <TextView
+        android:id="@+id/textViewRed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/red"
+        android:layout_marginEnd="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/seekBarRed"
+        app:layout_constraintTop_toTopOf="@+id/seekBarRed" />
+
+    <TextView
+        android:id="@+id/textViewGreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/green"
+        android:layout_marginEnd="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/seekBarGreen"
+        app:layout_constraintTop_toTopOf="@+id/seekBarGreen" />
+
+    <TextView
+        android:id="@+id/textViewBlue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/blue"
+        android:layout_marginEnd="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/seekBarBlue"
+        app:layout_constraintTop_toTopOf="@+id/seekBarBlue" />
+
+    <Button
+        android:id="@+id/modeButton"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:text="Change Mode"
+        app:layout_constraintEnd_toEndOf="@+id/seekBarBlue"
+        app:layout_constraintStart_toStartOf="@+id/seekBarBlue"
+        app:layout_constraintTop_toBottomOf="@+id/seekBarBlue" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
