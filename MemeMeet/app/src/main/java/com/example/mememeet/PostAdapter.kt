@@ -1,5 +1,6 @@
 package com.example.mememeet
 
+import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -25,8 +26,12 @@ class PostAdapter(private val posts: List<Post>): RecyclerView.Adapter<PostAdapt
         for(i in post.words.indices){
             holder.textView.text = ""+holder.textView.text+" "+post.words[i]
         }
+        val context=holder.itemView.context
         holder.itemView.setOnClickListener{
-            //TODO: Direct to another acitivity
+            val postIntent= Intent(context,PostActivity::class.java).apply{
+                putExtra("Image",post.image)
+            }
+            context.startActivity(postIntent)
         }
     }
 
