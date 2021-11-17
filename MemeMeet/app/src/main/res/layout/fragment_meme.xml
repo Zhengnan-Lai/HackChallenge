@@ -5,10 +5,19 @@
     android:layout_height="match_parent"
     tools:context=".MemeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <EditText
+        android:id="@+id/searchText"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:text="Enter tags"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/memeRecView"
+        android:layout_width="250dp"
+        android:layout_height="550dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"/>
 
 </FrameLayout>
