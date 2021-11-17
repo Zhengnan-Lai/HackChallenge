@@ -12,8 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import android.graphics.BitmapFactory
 
 import android.graphics.Bitmap
-
-
+import android.text.Editable
+import android.text.TextWatcher
+import androidx.core.widget.addTextChangedListener
 
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,6 +31,7 @@ class MemeFragment : Fragment() {
     private var param2: String? = null
 
     private val memeList= mutableListOf<Meme>()
+    private val searchList= mutableListOf<Meme>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +61,27 @@ class MemeFragment : Fragment() {
         recyclerView.adapter=adapter
         recyclerView.layoutManager=LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false)
 
+        searchText.addTextChangedListener(object: TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                searchList.clear()
+                for(i in memeList.indices){
+                    for(j in memeList[i].tags.indices){
+                        if(memeList[i].tags[j].contains(p0.toString())){
+                            searchList.add(memeList[i])
+                            break
+                        }
+                    }
+                }
+                recyclerView.adapter=MemeAdapter(searchList)
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+        })
         return view
     }
 
