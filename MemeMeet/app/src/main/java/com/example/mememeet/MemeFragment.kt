@@ -86,6 +86,13 @@ class MemeFragment : Fragment() {
         return view
     }
 
+    //get URI of an image from drawable
+    fun getURI(resourceId: Int): String {
+        //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
+        return Uri.parse("android.resource://" + R::class.java.getPackage().name + "/" + resourceId)
+            .toString()
+    }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -103,12 +110,5 @@ class MemeFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
-    }
-
-    //get URI of an image from drawable
-    fun getURI(resourceId: Int): String {
-        //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
-        return Uri.parse("android.resource://" + R::class.java.getPackage().name + "/" + resourceId)
-            .toString()
     }
 }
