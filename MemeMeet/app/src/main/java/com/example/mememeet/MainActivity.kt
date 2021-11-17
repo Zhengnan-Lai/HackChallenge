@@ -21,8 +21,9 @@ class MainActivity : AppCompatActivity() {
         viewPager.adapter=ViewPagerAdapter(this)
         tabLayout=findViewById(R.id.tabLayout)
         TabLayoutMediator(tabLayout, viewPager){ tab, position->
-            if(position==0) tab.text=="Memes"
-            else tab.text="Posts"
+            tab.text=position.toString()
+//            if(position==0) tab.text="Memes"
+//            else tab.text="Posts"
         }
 
     }
