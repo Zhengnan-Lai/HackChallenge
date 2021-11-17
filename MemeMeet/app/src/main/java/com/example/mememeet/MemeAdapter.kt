@@ -1,5 +1,8 @@
 package com.example.mememeet
 
+import android.content.Intent
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,12 +23,16 @@ class MemeAdapter(private val memes: List<Meme>): RecyclerView.Adapter<MemeAdapt
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val meme=memes[position]
-        holder.imageView.setImageBitmap(meme.image)
+        holder.imageView.setImageURI(Uri.parse(meme.image))
         for(i in meme.tags.indices){
-            holder.textView.setText(""+holder.textView.text+" "+meme.tags[i])
+            holder.textView.text = ""+holder.textView.text+" "+meme.tags[i]
         }
+        val context=holder.itemView.context
         holder.itemView.setOnClickListener{
-            //TODO: Direct to another acitivity
+            val memeIntent= Intent(context,MemeActivity::class.java).apply{
+                putExtra("Image",meme.image)
+            }
+            context.startActivity(memeIntent)
         }
     }
 

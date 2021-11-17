@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.graphics.BitmapFactory
 
 import android.graphics.Bitmap
+import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.core.widget.addTextChangedListener
@@ -51,11 +52,11 @@ class MemeFragment : Fragment() {
         val searchText: EditText=view.findViewById(R.id.searchText)
 
         //Test Image and tags
-        val image = BitmapFactory.decodeResource(requireContext().resources, R.drawable.irelia)
+        val image = R.drawable.irelia
         val list= mutableListOf<String>()
         list.add("Irelia")
         list.add("League of Legends")
-        memeList.add(Meme(image,list))
+        memeList.add(Meme(getURI(image),list))
 
         val adapter=MemeAdapter(memeList)
         recyclerView.adapter=adapter
@@ -83,6 +84,13 @@ class MemeFragment : Fragment() {
 
         })
         return view
+    }
+
+    //get URI of an image from drawable
+    fun getURI(resourceId: Int): String {
+        //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
+        return Uri.parse("android.resource://" + R::class.java.getPackage().name + "/" + resourceId)
+            .toString()
     }
 
     companion object {

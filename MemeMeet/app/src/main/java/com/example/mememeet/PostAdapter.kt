@@ -1,5 +1,6 @@
 package com.example.mememeet
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,9 +21,9 @@ class PostAdapter(private val posts: List<Post>): RecyclerView.Adapter<PostAdapt
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val post=posts[position]
-        holder.imageView.setImageBitmap(post.image)
+        holder.imageView.setImageURI(Uri.parse(post.image))
         for(i in post.words.indices){
-            holder.textView.setText(""+holder.textView.text+" "+post.words[i])
+            holder.textView.text = ""+holder.textView.text+" "+post.words[i]
         }
         holder.itemView.setOnClickListener{
             //TODO: Direct to another acitivity
