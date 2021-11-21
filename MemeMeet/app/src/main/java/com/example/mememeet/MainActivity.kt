@@ -1,8 +1,15 @@
 package com.example.mememeet
 
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.Button
+import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -10,33 +17,51 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 private const val NUM_FRAGMENTS=2
 class MainActivity : AppCompatActivity() {
-    private lateinit var viewPager: ViewPager2
-    private lateinit var tabLayout: TabLayout
+    private lateinit var profileButton: Button
+    private lateinit var searchText: EditText
+    private lateinit var recyclerView: RecyclerView
+
+    private val postList= mutableListOf<Post>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewPager=findViewById(R.id.viewPager)
-        viewPager.adapter=ViewPagerAdapter(this)
-        tabLayout=findViewById(R.id.tabLayout)
-        TabLayoutMediator(tabLayout, viewPager){ tab, position->
-            tab.text=position.toString()
-//            if(position==0) tab.text="Memes"
-//            else tab.text="Posts"
+        profileButton=findViewById(R.id.profileButton)
+        searchText=findViewById(R.id.searchText)
+        recyclerView=findViewById(R.id.postRecyclerView)
+
+        val image = R.drawable.irelia
+        val list= mutableListOf<String>()
+        postList.add(Post(1,1,"LOL", getURI(image), "Irelia",list))
+
+        profileButton.setOnClickListener {
+            //TODO Redirect to user profile page
         }
 
+        searchText.addTextChangedListener(object: TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                //TODO Add search function
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+        })
+
+
+        val adapter=PostAdapter(postList)
+        recyclerView.adapter=adapter
+        recyclerView.layoutManager= LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
-    private inner class ViewPagerAdapter(activity: MainActivity): FragmentStateAdapter(activity){
-        override fun getItemCount(): Int {
-            return NUM_FRAGMENTS
-        }
-
-        override fun createFragment(position: Int): Fragment {
-            return if (position==0) MemeFragment.newInstance()
-            else PostFragment.newInstance()
-        }
-
+    //get URI of an image from drawable
+    fun getURI(resourceId: Int): String {
+        //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
+        return Uri.parse("android.resource://" + R::class.java.getPackage().name + "/" + resourceId)
+            .toString()
     }
 }
