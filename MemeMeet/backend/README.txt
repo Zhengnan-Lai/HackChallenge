@@ -59,22 +59,22 @@ Response:
 {
     "posts": [
         {
-            "id": 1,
-            "caption": "I love doge",
+	"id": 1,
+	"caption": "I love doge",
 	“image”: “https://i.kym-cdn.com/photos/images/original/000/581/296/c09.jpg”,
 	“user”: [ <serialized user without posts field>, ... ],
 	“tag”: [ <serialized tag without posts field>, ... ]
         },
         {
-            "id": 2,
-            "caption": "I love cats",
+	"id": 2,
+	"caption": "I love cats",
 	“image”: “https://i.kym-cdn.com/photos/images/original/001/931/959/2e4.gif”,
 	“user”: [ <serialized user without posts field>, ... ],
 	“tag”: [ <serialized tag without posts field>, ... ]
         },
         {
-            "id": 3,
-            "caption": "I love doge, too",
+	"id": 3,
+	"caption": "I love doge, too",
 	“image”: “https://i.kym-cdn.com/photos/images/original/000/581/296/c09.jpg”,
 	“user”: [ <serialized user without posts field>, ... ],
 	“tag”: [ <serialized tag without posts field>, ... ]
