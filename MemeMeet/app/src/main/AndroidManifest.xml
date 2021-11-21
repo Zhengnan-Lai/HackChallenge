@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MemeMeet">
         <activity
+            android:name=".ProfileActivity"
+            android:exported="true" />
+        <activity
             android:name=".PostActivity"
             android:exported="true" />
         <activity
