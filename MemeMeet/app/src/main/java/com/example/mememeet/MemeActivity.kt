@@ -31,6 +31,7 @@ import android.os.Build
 import android.text.TextPaint
 import androidx.annotation.RequiresApi
 import android.R.attr.foreground
+import android.app.Activity
 
 import android.graphics.Bitmap
 
@@ -45,6 +46,8 @@ class MemeActivity : AppCompatActivity() {
     private lateinit var memeText: TextView
     private lateinit var postWords: TextView
 
+    private lateinit var image:String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_meme)
@@ -55,9 +58,9 @@ class MemeActivity : AppCompatActivity() {
         memeText=findViewById(R.id.memeBottomTexts)
         postWords=findViewById(R.id.memePostWords)
 
-
-        val image=intent.extras?.getString("Image")
-        imageView.setImageURI(Uri.parse(image))
+        //Load an image
+        val imageIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        startActivityForResult(imageIntent, REQUEST_CODE)
 
         saveButton.setOnClickListener {
             //TODO add a status bar
@@ -71,6 +74,8 @@ class MemeActivity : AppCompatActivity() {
 
         postButton.setOnClickListener {
             //TODO Post the meme and words (Remember to add a status bar)
+            val homeIntent=Intent(this,MainActivity::class.java)
+            startActivity(homeIntent)
         }
 
         memeText.addTextChangedListener(object: TextWatcher{
@@ -89,6 +94,15 @@ class MemeActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    //Method to load an image
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
+            image= data?.data.toString()
+            imageView.setImageURI(Uri.parse(image))
+        }
     }
 
     // Method to save an image to internal storage

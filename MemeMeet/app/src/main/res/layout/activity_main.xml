@@ -6,11 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/searchText"
         android:layout_width="349dp"
         android:layout_height="83dp"
         android:layout_marginTop="28dp"
+        android:hint="Enter a tag"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
