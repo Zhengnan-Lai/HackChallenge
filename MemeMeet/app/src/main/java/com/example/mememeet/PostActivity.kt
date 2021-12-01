@@ -24,7 +24,7 @@ class PostActivity : AppCompatActivity() {
         imageView=findViewById(R.id.postImageView)
         recyclerView=findViewById(R.id.commentRecView)
         commentButton=findViewById(R.id.commentButton)
-        homeButton=findViewById(R.id.homeButton)
+        homeButton=findViewById(R.id.postToHomeButton)
         tagButton=findViewById(R.id.tagButton)
         captionText=findViewById(R.id.postCaption)
 
@@ -44,7 +44,8 @@ class PostActivity : AppCompatActivity() {
         }
 
         tagButton.setOnClickListener {
-            //TODO: direct to tag page
+            val tagIntent=Intent(this,TagActivity::class.java)
+            startActivity(tagIntent)
         }
 
         commentButton.setOnClickListener {
