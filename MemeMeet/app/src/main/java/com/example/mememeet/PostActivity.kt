@@ -44,11 +44,11 @@ class PostActivity : AppCompatActivity() {
         }
 
         tagButton.setOnClickListener {
-            //TODO direct to tag page
+            //TODO: direct to tag page
         }
 
         commentButton.setOnClickListener {
-            //TODO Post a comment
+            //TODO: Post a comment
         }
     }
 }

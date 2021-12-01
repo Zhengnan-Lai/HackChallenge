@@ -1,5 +1,6 @@
 package com.example.mememeet
 
+import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -32,11 +33,18 @@ class MainActivity : AppCompatActivity() {
         recyclerView=findViewById(R.id.postRecyclerView)
 
         val image = R.drawable.irelia
+        val image1 = R.drawable.sera
+        val image2 = R.drawable.cam
         val list= mutableListOf<String>()
         postList.add(Post(1,1,"LOL", getURI(image), "Irelia",list))
+        postList.add(Post(1, 2, "LOL", getURI(image1), "Seraphine", list))
+        postList.add(Post(1, 3, "LOL", getURI(image2), "Camille", list))
+
 
         profileButton.setOnClickListener {
-            //TODO Redirect to user profile page
+            val mainActivityIntent = Intent(this, ProfileActivity::class.java)
+            startActivity(mainActivityIntent)
+
         }
 
         searchText.addTextChangedListener(object: TextWatcher{
