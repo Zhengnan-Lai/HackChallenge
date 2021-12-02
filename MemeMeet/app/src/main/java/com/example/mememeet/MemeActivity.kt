@@ -34,9 +34,17 @@ import android.R.attr.foreground
 import android.app.Activity
 
 import android.graphics.Bitmap
-
-
-
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 
 
 class MemeActivity : AppCompatActivity() {
@@ -47,6 +55,12 @@ class MemeActivity : AppCompatActivity() {
     private lateinit var postWords: TextView
 
     private lateinit var image:String
+
+    private val client = OkHttpClient()
+    private val moshi= Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
+    private val postJsonAdapter: JsonAdapter<Post> = moshi.adapter(Post::class.java)
+    private val postListType= Types.newParameterizedType(List::class.java, Post::class.java)
+    private val postListJsonAdapter: JsonAdapter<List<Post>> = moshi.adapter(postListType)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,8 +87,12 @@ class MemeActivity : AppCompatActivity() {
         }
 
         postButton.setOnClickListener {
-            //TODO Post the meme and words (Remember to add a status bar)
             val homeIntent=Intent(this,MainActivity::class.java)
+            runBlocking {
+                withContext(Dispatchers.IO) {
+                    createPost(1, "Cat!", "https://cdn.mos.cms.futurecdn.net/VSy6kJDNq2pSXsCzb6cvYF-1024-80.jpg",User(1,"Santi"),Tag(1,"Cat"))
+                }
+            }
             startActivity(homeIntent)
         }
 
@@ -135,5 +153,16 @@ class MemeActivity : AppCompatActivity() {
         comboImage.drawText(text, x.toFloat(), y, textPaint)
 
         return ret
+    }
+
+    private fun createPost(id: Int, caption: String, image: String, user: User, tag:Tag){
+        val newPost=Post(id,caption,image,user,tag)
+        val requestPost = Request.Builder().url(BASE_URL + "posts/")
+            .post(postJsonAdapter.toJson(newPost).toRequestBody(("application/json; charset=utf-8").toMediaType())).build()
+        client.newCall(requestPost).execute().use{
+            if(!it.isSuccessful){
+                throw IOException("Post unsuccessful")
+            }
+        }
     }
 }
