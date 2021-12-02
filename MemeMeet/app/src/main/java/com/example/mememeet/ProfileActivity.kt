@@ -32,11 +32,11 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(homeIntent)
         }
 
-        val image = R.drawable.irelia
-        val image1 = R.drawable.sera
-        val list= mutableListOf<String>()
-        postList.add(Post(1,1,"LOL", getURI(image), "Irelia",list))
-        postList.add(Post(1, 2, "LOL", getURI(image1), "Seraphine", list))
+//        val image = R.drawable.irelia
+//        val image1 = R.drawable.sera
+//        val list= mutableListOf<String>()
+//        postList.add(Post(1,1,"LOL", getURI(image), "Irelia",list))
+//        postList.add(Post(1, 2, "LOL", getURI(image1), "Seraphine", list))
 
         val adapter=PostAdapter(postList)
         recyclerView.adapter=adapter
