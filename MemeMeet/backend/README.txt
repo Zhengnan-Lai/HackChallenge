@@ -68,7 +68,7 @@ Response:
         {
 	"id": 2,
 	"caption": "I love cats",
-	“image”: “https://i.kym-cdn.com/photos/images/original/001/931/959/2e4.gif”,
+	“image”: “https://i.kym-cdn.com/photos/images/original/001/997/044/841.png”,
 	“user”: [ <serialized user without posts field>, ... ],
 	“tag”: [ <serialized tag without posts field>, ... ]
         },
@@ -181,7 +181,7 @@ Response:
 Request 2:
 {
     "caption": "I love cat",
-    "image": "https://i.kym-cdn.com/photos/images/original/001/931/959/2e4.gif",
+    "image": "https://i.kym-cdn.com/photos/images/original/001/997/044/841.png",
     "user_id": <user_id>
 }
 Response:
@@ -189,7 +189,7 @@ Response:
 {
     "id": <post_id, e.g. 2>,
     "caption": "I love cat",
-    "image": "https://i.kym-cdn.com/photos/images/original/001/931/959/2e4.gif",
+    "image": "https://i.kym-cdn.com/photos/images/original/001/997/044/841.png",
     "user":[ <serialized user without posts field>, ... ],
     "tag": [ <serialized tag without posts field>, ... ]
 }
