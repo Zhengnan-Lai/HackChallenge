@@ -1,5 +1,6 @@
 from collections import namedtuple
 import json
+import os
 
 from db import db
 from db import Posts
@@ -198,4 +199,5 @@ def post_to_tag(tag_id):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    port = os.environ.get("PORT", 5000)
+    app.run(host="0.0.0.0", port=port, debug=True)

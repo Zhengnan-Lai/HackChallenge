@@ -1,0 +1,6 @@
+version: "3"
+services: 
+  demo:
+    image: "alexjs149/hack:latest"
+    ports:
+      - 5000:5000
