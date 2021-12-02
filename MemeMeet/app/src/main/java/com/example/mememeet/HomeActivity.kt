@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
@@ -21,16 +22,30 @@ import com.google.android.material.tabs.TabLayoutMediator
 import android.view.View.OnFocusChangeListener
 import android.view.MotionEvent
 import android.view.View
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import okhttp3.*
+import java.io.IOException
 
+const val BASE_URL="https://mememeet.herokuapp.com/"
 
-private const val NUM_FRAGMENTS=2
 class MainActivity : AppCompatActivity() {
     private lateinit var profileButton: Button
     private lateinit var searchText: AutoCompleteTextView
     private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: PostAdapter
 
-    private val postList= mutableListOf<Post>()
-    private val tags = arrayOf("Cats","Doge")
+    private val tags = arrayOf("cat","doge")
+
+    private val posts: MutableList<Post> = mutableListOf()
+    private val client = OkHttpClient()
+    private val moshi= Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
+    private val postJsonAdapter: JsonAdapter<Post> = moshi.adapter(Post::class.java)
+    private val postsJsonAdapter: JsonAdapter<Posts> = moshi.adapter(Posts::class.java)
+    private val postListType= Types.newParameterizedType(List::class.java, Post::class.java)
+    private val postListJsonAdapter: JsonAdapter<List<Post>> = moshi.adapter(postListType)
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,15 +75,36 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val image = R.drawable.irelia
-        val image1 = R.drawable.sera
-        val list= mutableListOf<String>()
-        postList.add(Post(1,1,"LOL", getURI(image), "Irelia",list))
-        postList.add(Post(1, 2, "LOL", getURI(image1), "Seraphine", list))
 
-        val adapter=PostAdapter(postList)
-        recyclerView.adapter=adapter
+        populatePostsList()
         recyclerView.layoutManager= LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
+    }
+
+    private fun populatePostsList() {
+        val requestGet = Request.Builder().url(BASE_URL + "post/").build()
+        client.newCall(requestGet).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    if (!it.isSuccessful) {
+                        throw IOException("Network call unsuccessful")
+                    }
+                    val postList = postsJsonAdapter.fromJson(response.body!!.string())!!
+                    for (post in postList.posts) {
+                        posts.add(post)
+                    }
+                    adapter = PostAdapter(posts)
+
+                    runOnUiThread {
+                        recyclerView.adapter = adapter
+                    }
+                }
+            }
+        })
     }
 
     //get URI of an image from drawable
