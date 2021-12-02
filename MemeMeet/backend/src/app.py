@@ -6,6 +6,7 @@ from db import db
 from db import Posts
 from db import Users
 from db import Tags
+from db import User
 from flask import Flask
 from flask import request
 
@@ -20,6 +21,7 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+
 def success_response(data, code=200):
     return json.dumps(data), code
 
@@ -27,9 +29,125 @@ def success_response(data, code=200):
 def failure_response(message, code=404):
     return json.dumps({"error": message}), code
 
-# your routes here
 
+def extract_token(request):
+    token = request.headers.get("Authorization")
+    if token is None:
+        return False, "Missing authorization header"
+    token = token.replace("Bearer", "").strip()
+    return True, token
+
+
+def create_auth_user(username, password):
+    existing_user = User.query.filter(User.username == username).first()
+    if existing_user:
+        return False, None
+    user = User(username=username, password=password)
+    db.session.add(user)
+    db.session.commit()
+    return True, user
+
+
+def verify_credentials(username, password):
+    existing_user = User.query.filter(User.username == username).first()
+    if not existing_user:
+        return False, None
+
+    return existing_user.verify_password(password), existing_user
+
+
+def renew_session(update_token):
+    existing_user = User.query.filter(
+        User.update_token == update_token).first()
+    if not existing_user:
+        return False, None
+
+    existing_user.renew_session()
+    db.session.commit()
+    return True, existing_user
+
+
+def verify_session(session_token):
+    return User.query.filter(User.session_token == session_token).first()
+
+
+# your routes here
 @app.route("/")
+@app.route("/register/", methods=["POST"])
+def register_account():
+    body = json.loads(request.data)
+    username = body.get("username")
+    password = body.get("password")
+
+    if username is None or password is None:
+        return failure_response("Invalid username or password", 400)
+
+    created, user = create_auth_user(username, password)
+
+    if not created:
+        return failure_response("User already exists", 403)
+
+    return success_response({
+        "session_token": user.session_token,
+        "session_expiration": str(user.session_expiration),
+        "update_token": user.update_token
+    })
+
+
+@app.route("/login/", methods=["POST"])
+def login():
+    body = json.loads(request.data)
+    username = body.get("username")
+    password = body.get("password")
+
+    if username is None or password is None:
+        return failure_response("Invalid username or password", 400)
+
+    valid_creds, user = verify_credentials(username, password)
+
+    if not valid_creds:
+        return failure_response("Invalid username or password")
+
+    return success_response({
+        "session_token": user.session_token,
+        "session_expiration": str(user.session_expiration),
+        "update_token": user.update_token
+    })
+
+
+@app.route("/session/", methods=["POST"])
+def update_session():
+    success, update_token = extract_token(request)
+
+    if not success:
+        return failure_response(update_token)
+
+    valid, user = renew_session(update_token)
+
+    if not valid:
+        return failure_response("Invalid update token")
+    return success_response({
+        "session_token": user.session_token,
+        "session_expiration": str(user.session_expiration),
+        "update_token": user.update_token
+    })
+
+
+@app.route("/secret/", methods=["GET"])
+def secret_message():
+    success, session_token = extract_token(request)
+
+    if not success:
+        return failure_response(session_token)
+
+    valid = verify_session(session_token)
+
+    if not valid:
+        return failure_response("Invalid session token")
+
+    return success_response("Hello world")
+
+
 @app.route("/post/", methods=["GET"])
 def get_posts():
     list = []
@@ -50,15 +168,16 @@ def get_posts():
 @app.route("/post/", methods=["POST"])
 def create_tag():
     body = json.loads(request.data)
-    new_tagname =body.get("tag")
+    new_tagname = body.get("tag")
     if new_tagname is None:
         return failure_response("No tag name!", 400)
     new_tag = Tags(
-        tag = new_tagname
+        tag=new_tagname
     )
     db.session.add(new_tag)
     db.session.commit()
     return success_response(new_tag.serialize(), 201)
+
 
 @app.route("/user/", methods=["POST"])
 def create_user():
@@ -67,13 +186,14 @@ def create_user():
     if new_username is None:
         return failure_response("No user name!", 400)
     elif Users.query.filter_by(name=new_username).first() is not None:
-      	return failure_response("Replicate name!", 400)
+        return failure_response("Replicate name!", 400)
     new_user = Users(
-        name = new_username
+        name=new_username
     )
     db.session.add(new_user)
     db.session.commit()
     return success_response(new_user.serialize(), 201)
+
 
 @app.route("/post/tag/<int:tag_id>/", methods=["GET"])
 def get_posts_by_tag(tag_id):
@@ -81,6 +201,7 @@ def get_posts_by_tag(tag_id):
     if tag is None:
         return failure_response("Tag not found!")
     return success_response(tag.serialize())
+
 
 @app.route("/post/tag/<int:tag_id>/", methods=["POST"])
 def post_to_tag(tag_id):
@@ -100,13 +221,13 @@ def post_to_tag(tag_id):
     if to_user_id is None:
         return failure_response("No user_id provided by front-end developer!", 400)
     if Users.query.filter_by(id=to_user_id).first() is None:
-      	return failure_response("No such user!")
+        return failure_response("No such user!")
 
     new_post = Posts(
-        caption = new_caption,
-        image = new_image,
-      	user_id = to_user_id,
-      	tag_id = tag_id
+        caption=new_caption,
+        image=new_image,
+        user_id=to_user_id,
+        tag_id=tag_id
     )
     db.session.add(new_post)
 
@@ -133,7 +254,6 @@ def post_to_tag(tag_id):
 #     db.session.add(new_course)
 #     db.session.commit()
 #     return success_response(new_course.serialize(), 201)
-
 
 
 # @app.route("/api/courses/<int:course_id>/", methods=["DELETE"])
