@@ -124,13 +124,13 @@ class Posts(db.Model):
             "user": to_user.sub_p_serialize()
         }
 
-    def sub_u_serialize(self, to_tag):
+    def sub_u_serialize(self):
         return {
             "id": self.id,
-            "caption": self.caption,
-            "image": self.image,
+            # "caption": self.caption,
+            "image": self.image
             # "post_time": self.post_time
-            "tag": to_tag.sub_p_serialize()
+            # "tag": to_tag.sub_p_serialize()
         }
 
 
