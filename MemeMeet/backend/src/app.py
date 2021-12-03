@@ -179,6 +179,7 @@ def create_tag():
     new_tag = Tags(
         tag=new_tagname
     )
+
     db.session.add(new_tag)
     db.session.commit()
     return success_response(new_tag.serialize(), 201)
@@ -227,10 +228,14 @@ def get_post_by_userid_postid(user_id, post_id):
         return failure_response("User not found!")
 
     to_post = Posts.query.filter_by(id=post_id).first()
+    to_user_id = to_post.user_id
+    to_user = Users.query.filter_by(id=to_user_id).first()
+    to_tag_id = to_post.tag_id
+    to_tag = Tags.query.filter_by(id=to_tag_id).first()
     if to_post is None:
         return failure_response("Post not found!")
-    
-    return success_response(to_post.serialize())
+
+    return success_response(to_post.serialize(to_user, to_tag))
 
 
 @app.route("/post/tag/<int:tag_id>/", methods=["POST"])
