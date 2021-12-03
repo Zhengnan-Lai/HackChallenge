@@ -42,14 +42,17 @@ class TagActivity : AppCompatActivity() {
         homeButton=findViewById(R.id.tagToHomeButton)
         addImageButton=findViewById(R.id.addImageButton)
 
+        val id=intent.extras?.getInt("user")
         homeButton.setOnClickListener {
             val homeIntent= Intent(this,MainActivity::class.java)
+            homeIntent.putExtra("user",id)
             startActivity(homeIntent)
         }
 
         addImageButton.setOnClickListener {
             val memeIntent=Intent(this,MemeActivity::class.java)
             memeIntent.putExtra("tag",intent.extras?.getInt("tag"))
+            memeIntent.putExtra("user",id)
             startActivity(memeIntent)
         }
 

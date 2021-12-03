@@ -56,6 +56,8 @@ class MemeActivity : AppCompatActivity() {
         memeText=findViewById(R.id.memeBottomTexts)
         postWords=findViewById(R.id.memePostWords)
 
+        val id=intent.extras?.getInt("user")
+
         //Load an image
         val imageIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         startActivityForResult(imageIntent, REQUEST_CODE)
@@ -81,7 +83,7 @@ class MemeActivity : AppCompatActivity() {
             val background=imageView.drawingCache
             val newImage=combineImage(background, ""+memeText.text)
             imageView.setImageBitmap(newImage)
-
+            homeIntent.putExtra("user",id)
             runBlocking {
                 withContext(Dispatchers.IO) {
                     createPost(""+postWords.text, BitMapToString(newImage)!!,1,tag!!)
