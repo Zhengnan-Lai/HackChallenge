@@ -7,11 +7,18 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Button
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import okhttp3.*
 import java.io.IOException
+import kotlin.properties.Delegates
 
 const val REQUEST_CODE=1000
 
@@ -19,8 +26,14 @@ class TagActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var homeButton: Button
     private lateinit var addImageButton: Button
+    private lateinit var adapter: PostAdapter
 
-    private val postList= mutableListOf<Post>()
+    private val posts: MutableList<Post> = mutableListOf()
+    private val client = OkHttpClient()
+    private val moshi= Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
+    private val postJsonAdapter: JsonAdapter<Post> = moshi.adapter(Post::class.java)
+    private val tagPostJsonAdapter: JsonAdapter<TagPost> = moshi.adapter(TagPost::class.java)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tag)
@@ -36,26 +49,37 @@ class TagActivity : AppCompatActivity() {
 
         addImageButton.setOnClickListener {
             val memeIntent=Intent(this,MemeActivity::class.java)
+            memeIntent.putExtra("tag",intent.extras?.getInt("tag"))
             startActivity(memeIntent)
         }
 
-//        val image = R.drawable.irelia
-//        val image1 = R.drawable.sera
-//        val list= mutableListOf<String>()
-//        postList.add(Post(1,1,"LOL", getURI(image), "Irelia",list))
-//        postList.add(Post(1, 2, "LOL", getURI(image1), "Seraphine", list))
-
-        val adapter=PostAdapter(postList)
-        recyclerView.adapter=adapter
+        populateTagList()
         recyclerView.layoutManager= LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
+    private fun populateTagList() {
+        val tag=intent.extras?.getInt("tag")
+        val requestGet = Request.Builder().url(BASE_URL+"post/tag/"+tag.toString()+"/").build()
+        client.newCall(requestGet).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
 
-
-    //get URI of an image from drawable
-    fun getURI(resourceId: Int): String {
-        //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
-        return Uri.parse("android.resource://" + R::class.java.getPackage().name + "/" + resourceId)
-            .toString()
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    if (!it.isSuccessful) {
+                        throw IOException("Network call unsuccessful")
+                    }
+                    val postList = tagPostJsonAdapter.fromJson(response.body!!.string())!!
+                    for (post in postList.posts) {
+                        posts.add(Post(post.id,post.caption,post.image,post.user,Tag(postList.id,postList.tag)))
+                    }
+                    adapter = PostAdapter(posts)
+                    runOnUiThread {
+                        recyclerView.adapter = adapter
+                    }
+                }
+            }
+        })
     }
 }

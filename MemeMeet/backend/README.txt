@@ -324,7 +324,7 @@ Response:
 {
     "id": <tag_id>,
     "name": <stored user name for user with ID user_id>,
-    "posts": [ <serialized posts without tags field>, ... ]
+    "posts": [ <serialized posts without user or tag field>, ... ]
 }
 
 if user is None (user does not exist, so cannot find user with given user_id): return failure_response("User not found!"). 404.
