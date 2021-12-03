@@ -3,10 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/activity_login.xml" value="0.14666666666666667" />
         <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/activity_login2.xml" value="0.1" />
         <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/activity_main.xml" value="0.17916666666666667" />
+        <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/activity_meme.xml" value="0.17916666666666667" />
         <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/activity_post.xml" value="0.17916666666666667" />
         <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/activity_profile.xml" value="0.14666666666666667" />
+        <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/activity_signup.xml" value="0.1" />
         <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/activity_tag.xml" value="0.1" />
         <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/fragment_meme.xml" value="0.1" />
         <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/fragment_post.xml" value="0.17916666666666667" />

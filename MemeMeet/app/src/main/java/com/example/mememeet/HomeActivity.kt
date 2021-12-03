@@ -26,7 +26,12 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
 const val BASE_URL="https://mememeet.herokuapp.com/"
@@ -36,16 +41,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var searchText: AutoCompleteTextView
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PostAdapter
+    private lateinit var postList: Posts
 
     private val tags = arrayOf("cat","doge")
-
     private val posts: MutableList<Post> = mutableListOf()
     private val client = OkHttpClient()
     private val moshi= Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
-    private val postJsonAdapter: JsonAdapter<Post> = moshi.adapter(Post::class.java)
+    private val createTagJsonAdapter: JsonAdapter<CreateTag> = moshi.adapter(CreateTag::class.java)
+    private val createUserJsonAdapter: JsonAdapter<CreateUser> = moshi.adapter(CreateUser::class.java)
     private val postsJsonAdapter: JsonAdapter<Posts> = moshi.adapter(Posts::class.java)
-    private val postListType= Types.newParameterizedType(List::class.java, Post::class.java)
-    private val postListJsonAdapter: JsonAdapter<List<Post>> = moshi.adapter(postListType)
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,9 +61,9 @@ class MainActivity : AppCompatActivity() {
         recyclerView=findViewById(R.id.postRecyclerView)
 
         profileButton.setOnClickListener {
-            val mainActivityIntent = Intent(this, ProfileActivity::class.java)
-            startActivity(mainActivityIntent)
-
+            val profileIntent = Intent(this, ProfileActivity::class.java)
+            profileIntent.putExtra("user",1)
+            startActivity(profileIntent)
         }
 
         val searchAdapter: ArrayAdapter<String> = ArrayAdapter<String>(this,
@@ -70,11 +74,15 @@ class MainActivity : AppCompatActivity() {
             searchText.showDropDown()
             false
         }
-        searchText.setOnItemClickListener { adapterView, view, i, l ->
-            val intent=Intent(this, TagActivity::class.java)
-            startActivity(intent)
-        }
 
+        searchText.setOnItemClickListener { adapterView, view, i, l ->
+            val tagIntent=Intent(this, TagActivity::class.java)
+            if(adapterView.getItemAtPosition(i) as String=="cat")
+                tagIntent.putExtra("tag",1)
+            else
+                tagIntent.putExtra("tag",2)
+            startActivity(tagIntent)
+        }
 
         populatePostsList()
         recyclerView.layoutManager= LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -93,7 +101,7 @@ class MainActivity : AppCompatActivity() {
                     if (!it.isSuccessful) {
                         throw IOException("Network call unsuccessful")
                     }
-                    val postList = postsJsonAdapter.fromJson(response.body!!.string())!!
+                    postList = postsJsonAdapter.fromJson(response.body!!.string())!!
                     for (post in postList.posts) {
                         posts.add(post)
                     }
@@ -105,12 +113,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-    }
-
-    //get URI of an image from drawable
-    fun getURI(resourceId: Int): String {
-        //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
-        return Uri.parse("android.resource://" + R::class.java.getPackage().name + "/" + resourceId)
-            .toString()
     }
 }
