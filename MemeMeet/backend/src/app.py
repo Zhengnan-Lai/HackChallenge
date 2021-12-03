@@ -185,8 +185,11 @@ def create_user():
     new_username = body.get("name")
     if new_username is None:
         return failure_response("No user name!", 400)
-    elif Users.query.filter_by(name=new_username).first() is not None:
-        return failure_response("Replicate name!", 400)
+    # elif Users.query.filter_by(name=new_username).first() is not None:
+    #     return failure_response("Replicate name!", 400)
+    to_user = Users.query.filter_by(name=new_username).first()
+    if to_user is not None:
+        return success_response(to_user.serialize(), 201)
     new_user = Users(
         name=new_username
     )
