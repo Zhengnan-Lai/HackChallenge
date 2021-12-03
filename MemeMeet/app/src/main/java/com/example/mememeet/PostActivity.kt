@@ -16,8 +16,6 @@ import java.lang.Exception
 
 class PostActivity : AppCompatActivity() {
     private lateinit var imageView:ImageView
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var commentButton: Button
     private lateinit var homeButton: Button
     private lateinit var tagButton: Button
     private lateinit var captionText: TextView
@@ -27,35 +25,28 @@ class PostActivity : AppCompatActivity() {
         setContentView(R.layout.activity_post)
 
         imageView=findViewById(R.id.postImageView)
-        recyclerView=findViewById(R.id.commentRecView)
-        commentButton=findViewById(R.id.commentButton)
-        homeButton=findViewById(R.id.postToHomeButton)
+        homeButton=findViewById(R.id.profileButton)
         tagButton=findViewById(R.id.tagButton)
         captionText=findViewById(R.id.postCaption)
 
         val image=StringToBitMap(intent.extras?.getString("image"))
-        val userId=intent.extras?.getInt("userId")
-        val postId=intent.extras?.getInt("postId")
         val caption=intent.extras?.getString("caption")
         val tag=intent.extras?.getString("tag")
+        val tagId=
 
         imageView.setImageBitmap(image)
         captionText.text=caption
         tagButton.text=tag
 
         homeButton.setOnClickListener {
-            val homeIntent= Intent(this,MainActivity::class.java)
-            startActivity(homeIntent)
+            val profileIntent= Intent(this,MainActivity::class.java)
         }
 
         tagButton.setOnClickListener {
             val tagIntent=Intent(this,TagActivity::class.java)
             startActivity(tagIntent)
         }
-
-        commentButton.setOnClickListener {
-            //TODO: Post a comment
-        }
+        
     }
 
     fun BitMapToString(bitmap: Bitmap): String? {

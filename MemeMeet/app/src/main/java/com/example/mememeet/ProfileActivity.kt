@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.moshi.JsonAdapter
@@ -20,7 +21,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var homeButton: Button
     private lateinit var nameText: TextView
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: PostAdapter
+    private lateinit var adapter: ProfileAdapter
 
     private val posts: MutableList<Post> = mutableListOf()
     private val client = OkHttpClient()
@@ -37,11 +38,12 @@ class ProfileActivity : AppCompatActivity() {
 
         homeButton.setOnClickListener {
             val homeIntent = Intent(this, MainActivity::class.java)
+            homeIntent.putExtra("user",intent.extras?.getInt("user")!!)
             startActivity(homeIntent)
         }
 
         populateUserList()
-        recyclerView.layoutManager= LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        recyclerView.layoutManager= GridLayoutManager(this,3)
 
     }
 
@@ -61,7 +63,7 @@ class ProfileActivity : AppCompatActivity() {
                     for (post in postList.posts) {
                         posts.add(Post(post.id, post.caption, post.image,User(postList.id,postList.name),post.tag))
                     }
-                    adapter = PostAdapter(posts)
+                    adapter = ProfileAdapter(posts)
                     runOnUiThread {
                         nameText.text=postList.name
                         recyclerView.adapter = adapter
