@@ -171,6 +171,11 @@ def create_tag():
     new_tagname = body.get("tag")
     if new_tagname is None:
         return failure_response("No tag name!", 400)
+
+    to_tag = Tags.query.filter_by(tag=new_tagname).first()
+    if to_tag is not None:
+        return failure_response("Repeated tag name!", 400)
+
     new_tag = Tags(
         tag=new_tagname
     )
