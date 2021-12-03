@@ -91,7 +91,7 @@ def register_account():
         "session_token": user.session_token,
         "session_expiration": str(user.session_expiration),
         "update_token": user.update_token
-    })
+    }, 201)
 
 
 @app.route("/login/", methods=["POST"])
@@ -106,13 +106,13 @@ def login():
     valid_creds, user = verify_credentials(username, password)
 
     if not valid_creds:
-        return failure_response("Invalid username or password")
+        return failure_response("Invalid username or password", 400)
 
     return success_response({
         "session_token": user.session_token,
         "session_expiration": str(user.session_expiration),
         "update_token": user.update_token
-    })
+    }, 201)
 
 
 @app.route("/session/", methods=["POST"])
@@ -120,17 +120,17 @@ def update_session():
     success, update_token = extract_token(request)
 
     if not success:
-        return failure_response(update_token)
+        return failure_response(update_token, 400)
 
     valid, user = renew_session(update_token)
 
     if not valid:
-        return failure_response("Invalid update token")
+        return failure_response("Invalid update token", 400)
     return success_response({
         "session_token": user.session_token,
         "session_expiration": str(user.session_expiration),
         "update_token": user.update_token
-    })
+    }, 201)
 
 
 @app.route("/secret/", methods=["GET"])
@@ -145,7 +145,7 @@ def secret_message():
     if not valid:
         return failure_response("Invalid session token")
 
-    return success_response("Hello world")
+    return success_response("Valid session token")
 
 
 @app.route("/post/", methods=["GET"])
@@ -201,6 +201,28 @@ def get_posts_by_tag(tag_id):
     if tag is None:
         return failure_response("Tag not found!")
     return success_response(tag.serialize())
+
+
+@app.route("/user/<int:user_id>/", methods=["GET"])
+def get_posts_by_userid(user_id):
+    to_user = Users.query.filter_by(id=user_id).first()
+    if to_user is None:
+        return failure_response("User not found!")
+    return success_response(to_user.serialize())
+
+
+@app.route("/user/<int:user_id>/post/<int:post_id>/", methods=["GET"])
+def get_post_by_userid_postid(user_id, post_id):
+
+    to_user = Users.query.filter_by(id=user_id).first()
+    if to_user is None:
+        return failure_response("User not found!")
+
+    to_post = Posts.query.filter_by(id=post_id).first()
+    if to_post is None:
+        return failure_response("Post not found!")
+    
+    return success_response(to_post.serialize())
 
 
 @app.route("/post/tag/<int:tag_id>/", methods=["POST"])
