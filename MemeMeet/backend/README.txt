@@ -156,8 +156,10 @@ Response:
     "posts": []
 }
 
+If the client creates a username that has been used by someone else, respond with the same response as above with status code 201.
+
 If the client does not provide a name, respond with an error message "No user name!" with status code 400.
-If the client creates a username that has been used by someone else, respond with the error message “Replicate name!” with status code 400.
+// If the client creates a username that has been used by someone else, respond with the error message “Replicate name!” with status code 400.
 
 4. Get all posts by tag
 
