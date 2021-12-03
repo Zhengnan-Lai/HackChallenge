@@ -56,13 +56,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val id=intent.extras?.getInt("user")
+        Log.d("UserId",id.toString())
+
         profileButton=findViewById(R.id.profileButton)
         searchText=findViewById(R.id.searchText)
         recyclerView=findViewById(R.id.postRecyclerView)
 
         profileButton.setOnClickListener {
             val profileIntent = Intent(this, ProfileActivity::class.java)
-            profileIntent.putExtra("user",1)
+            profileIntent.putExtra("user",id)
             startActivity(profileIntent)
         }
 
@@ -81,6 +84,7 @@ class MainActivity : AppCompatActivity() {
                 tagIntent.putExtra("tag",1)
             else
                 tagIntent.putExtra("tag",2)
+            tagIntent.putExtra("user",id)
             startActivity(tagIntent)
         }
 

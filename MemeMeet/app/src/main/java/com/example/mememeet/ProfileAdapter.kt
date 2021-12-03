@@ -1,8 +1,9 @@
 package com.example.mememeet
 
 import android.content.Intent
-import android.net.Uri
-import android.util.Log
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,44 +11,32 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import android.content.ContentResolver
-
-import android.graphics.BitmapFactory
-
-import android.graphics.Bitmap
-import android.util.Base64
-import androidx.core.content.ContentProviderCompat.requireContext
-import com.bumptech.glide.Glide
 import java.io.ByteArrayOutputStream
 import java.lang.Exception
 
-
-class PostAdapter(private val posts: List<Post>): RecyclerView.Adapter<PostAdapter.ViewHolder>() {
+class ProfileAdapter(private val posts: List<Post>): RecyclerView.Adapter<ProfileAdapter.ViewHolder>() {
     class ViewHolder internal constructor(itemView: View): RecyclerView.ViewHolder(itemView){
-        val postImage:ImageView=itemView.findViewById(R.id.postImage)
-        val userId:TextView=itemView.findViewById(R.id.userIdText)
-        val tagButton: Button =itemView.findViewById(R.id.tagButton)
+        val profileImage: ImageView =itemView.findViewById(R.id.profileImage)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view=LayoutInflater.from(parent.context).inflate(R.layout.post_cell, parent, false) as View
+        val view=
+            LayoutInflater.from(parent.context).inflate(R.layout.profile_cell, parent, false) as View
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val post=posts[position]
-        holder.postImage.setImageBitmap(StringToBitMap(post.image))
-        holder.userId.text = post.user?.name.toString()
-        holder.tagButton.text= post.tag?.tag.toString()
+        holder.profileImage.setImageBitmap(StringToBitMap(post.image))
         val context=holder.itemView.context
-        holder.tagButton.setOnClickListener {
-            val tagIntent=Intent(context, TagActivity::class.java)
-            if(holder.tagButton.text=="cat")
-                tagIntent.putExtra("tag",1)
-            else
-                tagIntent.putExtra("tag",2)
-            tagIntent.putExtra("user",post.user?.id)
-            context.startActivity(tagIntent)
+        holder.itemView.setOnClickListener {
+            val postIntent=Intent(context,PostActivity::class.java)
+            postIntent.putExtra("tagName",post.tag?.tag)
+            postIntent.putExtra("user",post.user?.id)
+            postIntent.putExtra("userName",post.user?.name)
+            postIntent.putExtra("image",post.image)
+            postIntent.putExtra("post",post.id)
+            context.startActivity(postIntent)
         }
     }
 
@@ -71,4 +60,8 @@ class PostAdapter(private val posts: List<Post>): RecyclerView.Adapter<PostAdapt
             null
         }
     }
+
+
+
+
 }
