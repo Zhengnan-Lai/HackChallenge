@@ -125,7 +125,9 @@ Response:
     "posts": []
 }
 
-If the client does not provide a tag, respond with an error message "No tag name!" with status code 400.
+If the developer does not provide a tag, respond with an error message "No tag name!" with status code 400.
+If the developer creates a tag name that has been created before, respond with failure message "Repeated tag name!" with status code 400.
+
 
 3. Create a user
 
