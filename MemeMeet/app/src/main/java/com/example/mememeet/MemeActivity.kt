@@ -1,6 +1,5 @@
 package com.example.mememeet
 
-import android.R.attr
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,33 +9,17 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 
-import android.R.attr.bitmap
-
-import android.R.drawable
-import android.content.Context
-import android.content.ContextWrapper
-import android.util.Log
-import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
-import java.io.OutputStream
-import java.util.*
-import android.os.Environment
-import java.lang.Exception
 import android.content.Intent
 import android.provider.MediaStore
-import android.R.attr.foreground
 import android.graphics.*
-import android.os.Build
 import android.text.TextPaint
-import androidx.annotation.RequiresApi
-import android.R.attr.foreground
 import android.app.Activity
 
 import android.graphics.Bitmap
+import android.util.Log
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -45,6 +28,10 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.ByteArrayOutputStream
+import android.graphics.BitmapFactory
+import android.util.Base64
+import java.lang.Exception
 
 
 class MemeActivity : AppCompatActivity() {
@@ -53,14 +40,11 @@ class MemeActivity : AppCompatActivity() {
     private lateinit var postButton: Button
     private lateinit var memeText: TextView
     private lateinit var postWords: TextView
-
     private lateinit var image:String
 
     private val client = OkHttpClient()
     private val moshi= Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
-    private val postJsonAdapter: JsonAdapter<Post> = moshi.adapter(Post::class.java)
-    private val postListType= Types.newParameterizedType(List::class.java, Post::class.java)
-    private val postListJsonAdapter: JsonAdapter<List<Post>> = moshi.adapter(postListType)
+    private val sendpostJsonAdapter: JsonAdapter<SendPost> = moshi.adapter(SendPost::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +60,9 @@ class MemeActivity : AppCompatActivity() {
         val imageIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         startActivityForResult(imageIntent, REQUEST_CODE)
 
+
+        val tag=intent.extras?.getInt("tag")
+
         saveButton.setOnClickListener {
             //TODO add a status bar
             imageView.setImageURI(Uri.parse(image))
@@ -88,9 +75,16 @@ class MemeActivity : AppCompatActivity() {
 
         postButton.setOnClickListener {
             val homeIntent=Intent(this,MainActivity::class.java)
+
+            imageView.setImageURI(Uri.parse(image))
+            imageView.buildDrawingCache()
+            val background=imageView.drawingCache
+            val newImage=combineImage(background, ""+memeText.text)
+            imageView.setImageBitmap(newImage)
+
             runBlocking {
                 withContext(Dispatchers.IO) {
-                    createPost(1, "Cat!", "https://cdn.mos.cms.futurecdn.net/VSy6kJDNq2pSXsCzb6cvYF-1024-80.jpg",User(1,"Santi"),Tag(1,"Cat"))
+                    createPost(""+postWords.text, BitMapToString(newImage)!!,1,tag!!)
                 }
             }
             startActivity(homeIntent)
@@ -112,6 +106,34 @@ class MemeActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    private fun createPost(caption: String, image: String, user: Int, tag:Int){
+        val newPost=SendPost(caption,image,user)
+        val requestPost = Request.Builder().url(BASE_URL+"post/tag/"+tag.toString()+"/")
+            .post(sendpostJsonAdapter.toJson(newPost).toRequestBody(("application/json; charset=utf-8").toMediaType())).build()
+        client.newCall(requestPost).execute().use{
+            if(!it.isSuccessful){
+                throw IOException("Post unsuccessful")
+            }
+        }
+    }
+
+    fun BitMapToString(bitmap: Bitmap): String? {
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
+        val b = baos.toByteArray()
+        return Base64.encodeToString(b, Base64.DEFAULT)
+    }
+
+    fun StringToBitMap(encodedString: String?): Bitmap? {
+        return try {
+            val encodeByte: ByteArray = Base64.decode(encodedString, Base64.DEFAULT)
+            BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.size)
+        } catch (e: Exception) {
+            e.message
+            null
+        }
     }
 
     //Method to load an image
@@ -155,14 +177,4 @@ class MemeActivity : AppCompatActivity() {
         return ret
     }
 
-    private fun createPost(id: Int, caption: String, image: String, user: User, tag:Tag){
-        val newPost=Post(id,caption,image,user,tag)
-        val requestPost = Request.Builder().url(BASE_URL + "posts/")
-            .post(postJsonAdapter.toJson(newPost).toRequestBody(("application/json; charset=utf-8").toMediaType())).build()
-        client.newCall(requestPost).execute().use{
-            if(!it.isSuccessful){
-                throw IOException("Post unsuccessful")
-            }
-        }
-    }
 }

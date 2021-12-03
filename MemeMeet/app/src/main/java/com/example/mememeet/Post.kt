@@ -9,8 +9,7 @@ data class Post(
     val id: Int,
     val caption: String,
     val image: String,
-    val user: User,
-    val tag: Tag,
-    val comment: List<String>?=null,
+    val user: User?=null,
+    val tag: Tag?=null,
 )
 
