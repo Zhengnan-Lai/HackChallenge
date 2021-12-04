@@ -63,7 +63,8 @@ class TagActivity : AppCompatActivity() {
 
         addImageButton.setOnClickListener {
             val memeIntent=Intent(this,MemeActivity::class.java)
-            memeIntent.putExtra("tag",intent.extras?.getInt("tag"))
+            memeIntent.putExtra("tag",tag)
+            memeIntent.putExtra("tagName",tagName)
             memeIntent.putExtra("user",id)
             memeIntent.putExtra("userName",userName)
             startActivity(memeIntent)
