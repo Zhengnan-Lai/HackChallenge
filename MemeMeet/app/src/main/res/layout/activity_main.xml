@@ -8,40 +8,46 @@
 
     <AutoCompleteTextView
         android:id="@+id/searchText"
-        android:layout_width="349dp"
-        android:layout_height="83dp"
-        android:layout_marginTop="28dp"
-        android:hint="Enter a tag"
+        android:layout_width="275dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="44dp"
+        android:hint="  Enter a tag"
+        android:textSize="20dp"
+        android:background="#EFEFEF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profileButton"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <Button
+    <ImageButton
         android:id="@+id/profileButton"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="30dp"
-        android:text="Profile"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/home"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/postRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchText"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="16dp" />
 
     <ImageView
         android:id="@+id/searchImage"
-        android:layout_width="50dp"
-        android:layout_height="70dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         app:layout_constraintBottom_toBottomOf="@id/searchText"
         app:layout_constraintEnd_toStartOf="@+id/searchText"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginEnd="5dp"
         app:srcCompat="@drawable/search" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

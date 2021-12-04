@@ -8,10 +8,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +18,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import android.view.View.OnFocusChangeListener
 import android.view.MotionEvent
 import android.view.View
+import android.widget.*
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -37,7 +34,7 @@ import java.io.IOException
 const val BASE_URL="https://mememeet.herokuapp.com/"
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var profileButton: Button
+    private lateinit var profileButton: ImageButton
     private lateinit var searchText: AutoCompleteTextView
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PostAdapter
@@ -57,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val id=intent.extras?.getInt("user")
-        Log.d("UserId",id.toString())
+        val userName=intent.extras?.getString("userName")
 
         profileButton=findViewById(R.id.profileButton)
         searchText=findViewById(R.id.searchText)
@@ -66,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         profileButton.setOnClickListener {
             val profileIntent = Intent(this, ProfileActivity::class.java)
             profileIntent.putExtra("user",id)
+            profileIntent.putExtra("userName",userName)
             startActivity(profileIntent)
         }
 
@@ -80,11 +78,17 @@ class MainActivity : AppCompatActivity() {
 
         searchText.setOnItemClickListener { adapterView, view, i, l ->
             val tagIntent=Intent(this, TagActivity::class.java)
-            if(adapterView.getItemAtPosition(i) as String=="cat")
+            if(adapterView.getItemAtPosition(i) as String=="cat"){
                 tagIntent.putExtra("tag",1)
-            else
+                tagIntent.putExtra("tagName","cat")
+            }
+
+            else{
                 tagIntent.putExtra("tag",2)
+                tagIntent.putExtra("tagName","doge")
+            }
             tagIntent.putExtra("user",id)
+            tagIntent.putExtra("userName",userName)
             startActivity(tagIntent)
         }
 

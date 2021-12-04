@@ -43,11 +43,12 @@ class LoginActivity : AppCompatActivity() {
             runBlocking {
                 withContext(Dispatchers.IO) {
                     createUser(""+userText.text)
-                    createTag("cat")
-                    createTag("doge")
+//                    createTag("cat")
+//                    createTag("dog")
                 }
             }
             homeIntent.putExtra("user",postList.id)
+            homeIntent.putExtra("userName",postList.name)
             startActivity(homeIntent)
         }
 

@@ -31,15 +31,16 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.ByteArrayOutputStream
 import android.graphics.BitmapFactory
 import android.util.Base64
+import android.widget.ImageButton
 import java.lang.Exception
 
 
 class MemeActivity : AppCompatActivity() {
     private lateinit var imageView: ImageView
-    private lateinit var saveButton: Button
     private lateinit var postButton: Button
     private lateinit var memeText: TextView
     private lateinit var postWords: TextView
+    private lateinit var backButton:ImageButton
     private lateinit var image:String
 
     private val client = OkHttpClient()
@@ -51,12 +52,13 @@ class MemeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_meme)
 
         imageView=findViewById(R.id.memeEditView)
-        saveButton=findViewById(R.id.saveMemeButton)
         postButton=findViewById(R.id.postMemeButton)
         memeText=findViewById(R.id.memeBottomTexts)
         postWords=findViewById(R.id.memePostWords)
+        backButton=findViewById(R.id.memeToTagButton)
 
         val id=intent.extras?.getInt("user")
+        val userName=intent.extras?.getString("userName")
 
         //Load an image
         val imageIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
@@ -64,16 +66,6 @@ class MemeActivity : AppCompatActivity() {
 
 
         val tag=intent.extras?.getInt("tag")
-
-        saveButton.setOnClickListener {
-            //TODO add a status bar
-            imageView.setImageURI(Uri.parse(image))
-            imageView.buildDrawingCache()
-            val background=imageView.drawingCache
-            val newImage=combineImage(background, ""+memeText.text)
-            imageView.setImageBitmap(newImage)
-            saveImage(newImage)
-        }
 
         postButton.setOnClickListener {
             val homeIntent=Intent(this,MainActivity::class.java)
@@ -84,12 +76,29 @@ class MemeActivity : AppCompatActivity() {
             val newImage=combineImage(background, ""+memeText.text)
             imageView.setImageBitmap(newImage)
             homeIntent.putExtra("user",id)
+            homeIntent.putExtra("userName",userName)
             runBlocking {
                 withContext(Dispatchers.IO) {
-                    createPost(""+postWords.text, BitMapToString(newImage)!!,1,tag!!)
+                    createPost(""+postWords.text, BitMapToString(newImage)!!,id!!,tag!!)
                 }
             }
             startActivity(homeIntent)
+        }
+
+        backButton.setOnClickListener {
+            val tagIntent=Intent(this, TagActivity::class.java)
+            if(tag==1){
+                tagIntent.putExtra("tag",1)
+                tagIntent.putExtra("tagName","cat")
+            }
+
+            else{
+                tagIntent.putExtra("tag",2)
+                tagIntent.putExtra("tagName","doge")
+            }
+            tagIntent.putExtra("user",id)
+            tagIntent.putExtra("userName",userName)
+            startActivity(tagIntent)
         }
 
         memeText.addTextChangedListener(object: TextWatcher{

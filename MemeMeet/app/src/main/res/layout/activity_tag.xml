@@ -6,29 +6,52 @@
     android:layout_height="match_parent"
     tools:context=".TagActivity">
 
-    <Button
+    <ImageButton
         android:id="@+id/tagToHomeButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="9dp"
+        android:layout_height="16dp"
         android:text="Home"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tagRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tagToHomeButton"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="16dp" />
 
-    <Button
+    <ImageButton
         android:id="@+id/addImageButton"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:text="+"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:textSize="50dp"
+        android:background="@drawable/addpost"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintHorizontal_bias="0.949"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.96" />
+
+    <TextView
+        android:id="@+id/tagName"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text=""
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/tagRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.463" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

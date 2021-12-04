@@ -15,7 +15,9 @@ import android.content.ContentResolver
 import android.graphics.BitmapFactory
 
 import android.graphics.Bitmap
+import android.provider.MediaStore
 import android.util.Base64
+import android.widget.ImageButton
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.bumptech.glide.Glide
 import java.io.ByteArrayOutputStream
@@ -27,6 +29,8 @@ class PostAdapter(private val posts: List<Post>): RecyclerView.Adapter<PostAdapt
         val postImage:ImageView=itemView.findViewById(R.id.postImage)
         val userId:TextView=itemView.findViewById(R.id.userIdText)
         val tagButton: Button =itemView.findViewById(R.id.tagButton)
+        val caption:TextView=itemView.findViewById(R.id.caption)
+        val saveButton: ImageButton =itemView.findViewById(R.id.saveImageButton)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,15 +42,32 @@ class PostAdapter(private val posts: List<Post>): RecyclerView.Adapter<PostAdapt
         val post=posts[position]
         holder.postImage.setImageBitmap(StringToBitMap(post.image))
         holder.userId.text = post.user?.name.toString()
-        holder.tagButton.text= post.tag?.tag.toString()
+        holder.tagButton.text= "#"+post.tag?.tag.toString()
+        holder.caption.text=post.caption
+
         val context=holder.itemView.context
+
+        holder.saveButton.setOnClickListener {
+            holder.postImage.setImageBitmap(StringToBitMap(post.image))
+            MediaStore.Images.Media.insertImage(
+                context.contentResolver,
+                StringToBitMap(post.image),
+                "Image",
+                "Image"
+            )
+        }
         holder.tagButton.setOnClickListener {
             val tagIntent=Intent(context, TagActivity::class.java)
-            if(holder.tagButton.text=="cat")
+            if(holder.tagButton.text=="cat"){
                 tagIntent.putExtra("tag",1)
-            else
+                tagIntent.putExtra("tagName","cat")
+            }
+            else{
                 tagIntent.putExtra("tag",2)
+                tagIntent.putExtra("tagName","doge")
+            }
             tagIntent.putExtra("user",post.user?.id)
+            tagIntent.putExtra("userName",post.user?.name)
             context.startActivity(tagIntent)
         }
     }
