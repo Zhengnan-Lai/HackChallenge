@@ -21,20 +21,20 @@ For networking, we use GET requests to get the posts from the backend. We also u
 A list of how your app addresses each of the requirements
 
 ##  Android: 
-A completed Recycler View with a custom adapter;
-Use of either 3rd party API, networking, or persistent storage;
-3 fully functional screens.
+*A completed Recycler View with a custom adapter;
+*Use of either 3rd party API, networking, or persistent storage;
+*3 fully functional screens.
 
 ## Backend:
-7 routes (4 GET, 3 POST)
-3 tables in database with a relation between posts and tags, posts and users
-Full API specification: https://github.com/Santiago-Lai/HackChallenge/blob/HackChallenge/MemeMeet/backend/README.txt
+*7 routes (4 GET, 3 POST)
+*3 tables in database with a relation between posts and tags, posts and users
+*Full API specification: https://github.com/Santiago-Lai/HackChallenge/blob/HackChallenge/MemeMeet/backend/README.txt
 
 ## Design: 
-Low fidelity sketches of design
-Medium fidelity explorations of multiple flows in Figma
-High fidelity prototype in Figma
-UI design kit/design system in Figma
+*Low fidelity sketches of design
+*Medium fidelity explorations of multiple flows in Figma
+*High fidelity prototype in Figma
+*UI design kit/design system in Figma
 
 ## Screenshots
 <img src="MemeMeet/screenshots/1.png">
