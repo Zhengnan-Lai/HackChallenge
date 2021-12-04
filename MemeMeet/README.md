@@ -36,5 +36,8 @@ Medium fidelity explorations of multiple flows in Figma
 High fidelity prototype in Figma
 UI design kit/design system in Figma
 
+## Screenshots
+<img src="house button.jpg">
+
 ## Anything else you want your grader to know:
 Thank You! You Are the Best!
