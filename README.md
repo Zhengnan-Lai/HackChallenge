@@ -1,4 +1,4 @@
-# HackChallenge Final Project: Meme&Meet
+# HackChallenge Final Project: Meme&Meet 🐶🐱
 Search and post memes
 
 ## App name:
