@@ -9,7 +9,7 @@ from sqlalchemy.sql import func
 db = SQLAlchemy()
 
 # Tags: one tag to many posts
-# id, name, posts, users
+# id, tag, posts
 
 class Tags(db.Model):
     __tablename__ = "tags"
