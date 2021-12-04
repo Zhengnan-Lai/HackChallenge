@@ -37,7 +37,12 @@ High fidelity prototype in Figma
 UI design kit/design system in Figma
 
 ## Screenshots
-<img src="house button.jpg">
+<img src="screenshots/1.png">
+<img src="screenshots/2.png">
+<img src="screenshots/3.png">
+<img src="screenshots/4.png">
+<img src="screenshots/5.png">
+<img src="screenshots/6.png">
 
 ## Anything else you want your grader to know:
 Thank You! You Are the Best!
