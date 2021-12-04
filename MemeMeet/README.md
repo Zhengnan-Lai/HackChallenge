@@ -1,15 +1,15 @@
-## HackChallenge Final Project: Meme&Meet
+# HackChallenge Final Project: Meme&Meet
 Search and post memes
 
-# Appname:
+## Appname:
 Meme&Meet
 
-# App Tagline:
+## App Tagline:
 In the application we created, people will be able to search for meme templates, create their own memes, and post memes about the events happening at Cornell. 
 Link(s) to any other public GitHub repo(s) of your app: https://github.com/Santiago-Lai/HackChallenge
 Some screenshots of your app (highlight important features)
 
-# A short description of your app (its purpose and features)
+## A short description of your app (its purpose and features)
 * Login screen: users can enter their username and click login
 * Home screen: users can view a recycler view of available posts and enter text into the search field
 * Tag screen: users can view the posts created by other uses under the same tag
@@ -20,21 +20,21 @@ Some screenshots of your app (highlight important features)
 For networking, we use GET requests to get the posts from the backend. We also use the POST request when adding a new post. 
 A list of how your app addresses each of the requirements
 
-# Android: (not finished yet)
+##  Android: (not finished yet)
 A completed Recycler View with a custom adapter;
 Use of either 3rd party API, networking, or persistent storage;
 3 fully functional screens.
 
-# Backend:
+## Backend:
 7 routes (4 GET, 3 POST)
 3 tables in database with a relation between posts and tags, posts and users
 Full API specification: https://github.com/Santiago-Lai/HackChallenge/blob/HackChallenge/MemeMeet/backend/README.txt
 
-# Design: (not finished yet)
+## Design: (not finished yet)
 Low fidelity sketches of design
 Medium fidelity explorations of multiple flows in Figma
 High fidelity prototype in Figma
 UI design kit/design system in Figma
 
-# Anything else you want your grader to know:
+## Anything else you want your grader to know:
 Thank You! You Are the Best!
