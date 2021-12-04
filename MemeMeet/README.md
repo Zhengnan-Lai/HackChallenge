@@ -1,7 +1,7 @@
 # HackChallenge Final Project: Meme&Meet
 Search and post memes
 
-## Appname:
+## App name:
 Meme&Meet
 
 ## App Tagline:
