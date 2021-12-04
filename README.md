@@ -5,7 +5,7 @@ Search and post memes
 Meme&Meet
 
 ## Team:
-* Designer: Grace Yizhen Chen (yc)
+* Designer: Grace Yizhen Chen (yc795)
 * Backend: Alex Jialin Shen (js2642)
 * Backend: Yutong Zhu (yz2676)
 * Android Frontend: Santiago Lai (zl345)
