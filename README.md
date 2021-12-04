@@ -1,19 +1,17 @@
 # HackChallenge Final Project: Meme&Meet 🐶🐱
 Search and post memes
 
-## App name:
+## App name
 Meme&Meet
 
-## Team:
+## Team
 * Designer: Grace Yizhen Chen (yc795)
 * Backend: Alex Jialin Shen (js2642)
 * Backend: Yutong Zhu (yz2676)
 * Android Frontend: Santiago Lai (zl345)
 * Android Frontend: Chuhan Ouyang (co232)
 
-
-
-## App Tagline:
+## App Tagline
 In the application we created, people will be able to search for meme templates, create their own memes, and post memes about the events happening at Cornell. 
 
 Link to the public GitHub repo of our app: https://github.com/Santiago-Lai/HackChallenge.
@@ -24,7 +22,7 @@ Demo video on YouTube: https://youtu.be/gjqxvYw57cQ.
 
 Screenshots of our app (highlight important features) are attached at the end.
 
-## A short description of your app (its purpose and features)
+## A short description of our app (purpose and features)
 * Login screen: users can enter their username and click login
 * Home screen: users can view a recycler view of available posts and enter text into the search field
 * Tag screen: users can view the posts created by other uses under the same tag
@@ -34,18 +32,17 @@ Screenshots of our app (highlight important features) are attached at the end.
 * The user first logs in, then goes to the home screen to view posts. If they are interested in a specific category of post, they can search for a tag and see only posts of that tag. Then, they can post in the tag. They can also navigate to the profile screen to view a list of posts they have and click on them to see more information about the individual post. 
 * For networking, we use GET requests to get the posts from the backend. We also use the POST request when adding a new post. 
 
-
-##  Android: 
+##  Android Frontend
 * A completed Recycler View with a custom adapter;
-* Use of either 3rd party API, networking, or persistent storage;
-* 3 fully functional screens.
+* Use of networking, or persistent storage;
+* 6 fully functional screens.
 
-## Backend:
+## Backend
 * 7 routes (4 GET, 3 POST). Routes for user authorization are also implemented.
 * 3 tables (posts, tags, users) in database with a relation between posts and tags, posts and users
 * Full API specification: https://github.com/Santiago-Lai/HackChallenge/blob/HackChallenge/MemeMeet/backend/README.txt
 
-## Design: 
+## Design 
 * Link to Figma: https://www.figma.com/file/xx1FWEnMaE4ZmZK8W3tb1b/hackathon-(meet%26meme)?node-id=8%3A1410
 * Low fidelity sketches of design
 * Medium fidelity explorations of multiple flows in Figma
