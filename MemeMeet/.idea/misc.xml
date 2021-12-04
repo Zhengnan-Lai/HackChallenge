@@ -3,17 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/activity_load.xml" value="0.1" />
         <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/activity_login.xml" value="0.14666666666666667" />
         <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/activity_login2.xml" value="0.1" />
-        <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/activity_main.xml" value="0.17916666666666667" />
+        <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/activity_meme.xml" value="0.17916666666666667" />
         <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/activity_post.xml" value="0.17916666666666667" />
         <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/activity_profile.xml" value="0.14666666666666667" />
         <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/activity_signup.xml" value="0.1" />
-        <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/activity_tag.xml" value="0.1" />
+        <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/activity_tag.xml" value="0.22" />
         <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/fragment_meme.xml" value="0.1" />
         <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/fragment_post.xml" value="0.17916666666666667" />
-        <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/post_cell.xml" value="0.17916666666666667" />
+        <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/post_cell.xml" value="0.3333333333333333" />
         <entry key="..\:/HackChallenge/MemeMeet/app/src/main/res/layout/profile_cell.xml" value="0.1" />
         <entry key="..\:/Intro to Android/MemeMeet/app/src/main/res/layout/activity_main.xml" value="0.17916666666666667" />
         <entry key="..\:/Intro to Android/MemeMeet/app/src/main/res/layout/activity_meme.xml" value="0.17916666666666667" />

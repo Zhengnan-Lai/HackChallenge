@@ -1,5 +1,6 @@
 package com.example.mememeet
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.WallpaperManager
 import android.content.Intent
@@ -9,6 +10,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,8 +27,9 @@ const val REQUEST_CODE=1000
 
 class TagActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
-    private lateinit var homeButton: Button
-    private lateinit var addImageButton: Button
+    private lateinit var homeButton: ImageButton
+    private lateinit var addImageButton: ImageButton
+    private lateinit var tagText:TextView
     private lateinit var adapter: PostAdapter
 
     private val posts: MutableList<Post> = mutableListOf()
@@ -34,6 +38,7 @@ class TagActivity : AppCompatActivity() {
     private val postJsonAdapter: JsonAdapter<Post> = moshi.adapter(Post::class.java)
     private val tagPostJsonAdapter: JsonAdapter<TagPost> = moshi.adapter(TagPost::class.java)
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tag)
@@ -41,8 +46,15 @@ class TagActivity : AppCompatActivity() {
         recyclerView=findViewById(R.id.tagRecyclerView)
         homeButton=findViewById(R.id.tagToHomeButton)
         addImageButton=findViewById(R.id.addImageButton)
+        tagText=findViewById(R.id.tagName)
 
         val id=intent.extras?.getInt("user")
+        val userName=intent.extras?.getString("userName")
+        val tag=intent.extras?.getInt("tag")
+        val tagName=intent.extras?.getString("tagName")
+
+        tagText.text= "#$tagName"
+
         homeButton.setOnClickListener {
             val homeIntent= Intent(this,MainActivity::class.java)
             homeIntent.putExtra("user",id)
@@ -53,6 +65,7 @@ class TagActivity : AppCompatActivity() {
             val memeIntent=Intent(this,MemeActivity::class.java)
             memeIntent.putExtra("tag",intent.extras?.getInt("tag"))
             memeIntent.putExtra("user",id)
+            memeIntent.putExtra("userName",userName)
             startActivity(memeIntent)
         }
 

@@ -5,38 +5,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PostActivity">
-    <Button
+
+    <ImageButton
         android:id="@+id/postToProfileButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="9dp"
+        android:layout_height="16dp"
         android:text="Home"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/postCaption"
-        android:layout_width="300dp"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
+        android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/postToHomeButton" />
+        app:layout_constraintTop_toBottomOf="@id/postToProfileButton" />
     <ImageView
         android:id="@+id/postImageView"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="50dp"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_marginTop="10dp"
         android:scaleType="centerInside"
-        app:layout_constraintTop_toTopOf="@id/postCaption"
+        app:layout_constraintTop_toBottomOf="@id/postCaption"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <Button
         android:id="@+id/tagButton"
         android:layout_width="100dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="20dp"
+
+        android:backgroundTint="#46BDAC"
+        app:layout_constraintStart_toStartOf="@id/postImageView"
         app:layout_constraintTop_toBottomOf="@id/postImageView"
-        app:layout_constraintStart_toStartOf="@id/postImageView"/>
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +19,7 @@ import okhttp3.*
 import java.io.IOException
 
 class ProfileActivity : AppCompatActivity() {
-    private lateinit var homeButton: Button
+    private lateinit var homeButton: ImageButton
     private lateinit var nameText: TextView
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ProfileAdapter
@@ -32,13 +33,19 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        homeButton=findViewById(R.id.button)
+        val id=intent.extras?.getInt("user")
+        val userName=intent.extras?.getString("userName")
+
+        homeButton=findViewById(R.id.backButton)
         nameText=findViewById(R.id.userNameText)
         recyclerView=findViewById(R.id.recyclerview)
 
+        nameText.text=userName
+
         homeButton.setOnClickListener {
             val homeIntent = Intent(this, MainActivity::class.java)
-            homeIntent.putExtra("user",intent.extras?.getInt("user")!!)
+            homeIntent.putExtra("user",id)
+            homeIntent.putExtra("userName",userName)
             startActivity(homeIntent)
         }
 

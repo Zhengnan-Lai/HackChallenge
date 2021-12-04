@@ -31,11 +31,8 @@ class ProfileAdapter(private val posts: List<Post>): RecyclerView.Adapter<Profil
         val context=holder.itemView.context
         holder.itemView.setOnClickListener {
             val postIntent=Intent(context,PostActivity::class.java)
-            postIntent.putExtra("tagName",post.tag?.tag)
             postIntent.putExtra("user",post.user?.id)
-            postIntent.putExtra("userName",post.user?.name)
-            postIntent.putExtra("image",post.image)
-            postIntent.putExtra("post",post.id)
+            postIntent.putExtra("postId",post.id)
             context.startActivity(postIntent)
         }
     }
