@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: PostAdapter
     private lateinit var postList: Posts
 
-    private val tags = arrayOf("cat","doge")
+    private val tags = arrayOf("cat","dog")
     private val posts: MutableList<Post> = mutableListOf()
     private val client = OkHttpClient()
     private val moshi= Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
 
             else{
                 tagIntent.putExtra("tag",2)
-                tagIntent.putExtra("tagName","doge")
+                tagIntent.putExtra("tagName","dog")
             }
             tagIntent.putExtra("user",id)
             tagIntent.putExtra("userName",userName)

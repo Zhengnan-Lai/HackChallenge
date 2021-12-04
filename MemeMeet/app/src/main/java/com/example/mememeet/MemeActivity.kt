@@ -66,23 +66,25 @@ class MemeActivity : AppCompatActivity() {
 
 
         val tag=intent.extras?.getInt("tag")
-
+        val tagName=intent.extras?.getString("tagName")
         postButton.setOnClickListener {
-            val homeIntent=Intent(this,MainActivity::class.java)
+            val tagIntent=Intent(this,TagActivity::class.java)
 
             imageView.setImageURI(Uri.parse(image))
             imageView.buildDrawingCache()
             val background=imageView.drawingCache
             val newImage=combineImage(background, ""+memeText.text)
             imageView.setImageBitmap(newImage)
-            homeIntent.putExtra("user",id)
-            homeIntent.putExtra("userName",userName)
+            tagIntent.putExtra("user",id)
+            tagIntent.putExtra("userName",userName)
+            tagIntent.putExtra("tag",tag)
+            tagIntent.putExtra("tagName",tagName)
             runBlocking {
                 withContext(Dispatchers.IO) {
                     createPost(""+postWords.text, BitMapToString(newImage)!!,id!!,tag!!)
                 }
             }
-            startActivity(homeIntent)
+            startActivity(tagIntent)
         }
 
         backButton.setOnClickListener {
